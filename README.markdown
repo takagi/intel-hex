@@ -1,5 +1,8 @@
 # Intel-hex - A library to handle Intel HEX format.
 
+[![Build Status](https://travis-ci.org/takagi/intel-hex.svg?branch=master)](https://travis-ci.org/takagi/intel-hex)
+[![Coverage Status](https://coveralls.io/repos/takagi/intel-hex/badge.svg?branch=master)](https://coveralls.io/r/takagi/intel-hex?branch=master)
+
 Intel-hex is a library for Common Lisp to handle Intel HEX format, which is a file format that conveys binary information in ASCII text form.
 
 ## Usage
