@@ -17,7 +17,7 @@ This example shows an Intel HEX file that has four data records followed by an e
 
 To read the file, just call READ-HEX-FROM-FILE function as following and get a byte array.
 
-    (intel-hex:read-hex-from-file 256 "/path/to/hex-file.hex")
+    (intel-hex:read-hex-from-file 512 "/path/to/hex-file.hex")
     => #(0 0 0 ... #x21 #x46 #x01 ...)
 
 ## Installation
