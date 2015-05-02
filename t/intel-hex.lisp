@@ -12,6 +12,17 @@
 
 (plan nil)
 
-;; blah blah blah.
+
+;;;
+;;; test READ-HEX-FROM-FILE function
+;;;
+
+(let* ((path (asdf:system-relative-pathname :intel-hex #P"t/test1.hex"))
+       (bytes (read-hex-from-file 512 path)))
+  (is (aref bytes #x100) #x21)
+  (is (aref bytes #x101) #x46)
+  (is (aref bytes #x102) #x01)
+  (is (aref bytes #x13F) #x21))
+
 
 (finalize)
