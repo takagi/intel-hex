@@ -22,12 +22,7 @@ To read the file, just call READ-HEX-FROM-FILE function as following and get a b
 
 ## Installation
 
-Since intel-hex is just requesting to Quicklisp, plese use its local-projects feature for now.
-
-    cd quicklisp/local-projects
-    git clone git://github.com/takagi/intel-hex.git
-
-After approved, you can install via Quicklisp.
+You can install via Quicklisp.
 
     (ql:quickload :intel-hex)
 
