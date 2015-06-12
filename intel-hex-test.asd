@@ -16,6 +16,7 @@
   :components ((:module "t"
                 :components
                 ((:test-file "intel-hex"))))
+  :description "Test for intel-hex."
   :defsystem-depends-on (:prove-asdf)
   :perform (test-op :after (op c)
                     (funcall (intern #.(string :run-test-system) :prove.asdf) c)
