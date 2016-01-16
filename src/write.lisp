@@ -107,7 +107,7 @@ OPS may contain additional parameters; currently:
   (force-output out))
 
 (defun write-hex-to-file (offset-and-data file &key (chunk-size *default-chunk-size*)
-						 vector-size (if-exists :supersede))
+						 vector-size (if-exists :error))
   "Print intel hex representation of one or multiple vectors to
 FILE.
 

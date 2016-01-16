@@ -76,7 +76,7 @@ use 2 here).
 
 ### [Function] write-hex-to-file
 
-    READ-HEX-FROM-FILE offset-and-data file &optional (chunk-size *default-chunk-size*) vector-size) => NIL
+    WRITE-HEX-TO-FILE offset-and-data file &optional (chunk-size *default-chunk-size*) vector-size) => NIL
 
 Write Intel HEX format to a file named FILENAME.
 
@@ -85,7 +85,7 @@ passed to OPEN call.
 
 ### [Function] write-hex-to-string
 
-    READ-HEX-FROM-STRING offset-and-data &optional (chunk-size *default-chunk-size*) vector-size) => NIL
+    WRITE-HEX-TO-STRING offset-and-data &optional (chunk-size *default-chunk-size*) vector-size (if-exists :error)) => NIL
 
 Write Intel HEX format to string.
 Parameters are analogous to WRITE-HEX.
