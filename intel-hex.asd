@@ -15,7 +15,9 @@
   :depends-on ()
   :components ((:module "src"
                 :components
-                ((:file "intel-hex"))))
+                ((:file "package")
+		 (:file "write" :depends-on ("package"))
+		 (:file "read" :depends-on ("package")))))
   :description "A library to handle Intel HEX format."
   :long-description
   #.(with-open-file (stream (merge-pathnames

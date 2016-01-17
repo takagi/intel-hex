@@ -20,6 +20,17 @@ To read the file, just call READ-HEX-FROM-FILE function as following and get a b
     (intel-hex:read-hex-from-file 512 "/path/to/hex-file.hex")
     => #(0 0 0 ... #x21 #x46 #x01 ...)
 
+To write such a file, just call WRITE-HEX-TO-FILE function as following:
+
+    (intel-hex:write-hex-to-file #(0 0 0 ... #x21 #x46 #x01 ...) "/path/to/hex-file.hex")
+    => NIL
+
+or, if you want your file to start at some address,
+
+    (intel-hex:write-hex-to-file '(#x100 #(#x21 #x46 #x01 ...)) "/path/to/hex-file.hex")
+    => NIL
+
+
 ## Installation
 
 You can install via Quicklisp.
@@ -46,6 +57,39 @@ Reads Intel HEX format from a file named FILENAME and returns an array of bytes 
 
 Reads Intel HEX format from STRING and returns an array of bytes whose only dimension is SIZE.
 
+### [Function] write-hex
+
+    WRITE-HEX offset-and-data out &optional (chunk-size *default-chunk-size*) vector-size) => NIL
+
+Write Intel HEX format to STREAM.
+
+OFFSET-AND-DATA is a list of alternating initial addresses and vectors
+to be put at the address; as special case, a single vector (assumed to
+start at address 0) can be also used.
+
+May contain additional parameters; currently:
+- :chunk-size is supported to change size of individual lines (default
+  is `*default-chunk-size*`, that is initially 16
+- :vector-size can be used to store more than one octet data (e.g.,
+Microchip tools use 16bit for their midrange processors, so you would
+use 2 here).
+
+### [Function] write-hex-to-file
+
+    WRITE-HEX-TO-FILE offset-and-data file &optional (chunk-size *default-chunk-size*) vector-size) => NIL
+
+Write Intel HEX format to a file named FILENAME.
+
+Parameters are analogous to WRITE-HEX; in addition, IF-EXISTS is
+passed to OPEN call.
+
+### [Function] write-hex-to-string
+
+    WRITE-HEX-TO-STRING offset-and-data &optional (chunk-size *default-chunk-size*) vector-size (if-exists :error)) => NIL
+
+Write Intel HEX format to string.
+Parameters are analogous to WRITE-HEX.
+
 ## Record Types
 
 There are fix record types defined in Intel HEX format and their implementation status in the library is as following.
@@ -56,12 +100,13 @@ Hex code | Record type | Status
 '01' | End Of File Record | done.
 '02' | Extended Segment Address Record | not implemented.
 '03' | Start Segment Address Record | not implemented.
-'04' | Extended Linear Address Record | done.
+'04' | Extended Linear Address Record | reading only.
 '05' | Start Linear Address Record | not implemented.
 
 ## Author
 
 * Masayuki Takagi (kamonama@gmail.com)
+* Tomas Zellerin (zellerin@gmail.com) - writing hex files
 
 ## Copyright
 
