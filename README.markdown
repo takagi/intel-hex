@@ -59,13 +59,15 @@ Reads Intel HEX format from STRING and returns an array of bytes whose only dime
 
 ### [Function] write-hex
 
-    WRITE-HEX offset-and-data out &optional (chunk-size *default-chunk-size*) vector-size) => NIL
+    WRITE-HEX offset-and-data &key (stream *standard-output*) (chunk-size *default-chunk-size*) vector-size => NIL
 
 Write Intel HEX format to STREAM.
 
 OFFSET-AND-DATA is a list of alternating initial addresses and vectors
 to be put at the address; as special case, a single vector (assumed to
 start at address 0) can be also used.
+
+Example: `(0 #(... code ...) #x2007 #(... config ...) #x2100 #(... rom ...))`
 
 May contain additional parameters; currently:
 - :chunk-size is supported to change size of individual lines (default
@@ -76,7 +78,7 @@ use 2 here).
 
 ### [Function] write-hex-to-file
 
-    WRITE-HEX-TO-FILE offset-and-data file &optional (chunk-size *default-chunk-size*) vector-size) => NIL
+    WRITE-HEX-TO-FILE offset-and-data file &key (chunk-size *default-chunk-size*) vector-size (:if-exists :error) => NIL
 
 Write Intel HEX format to a file named FILENAME.
 
@@ -85,10 +87,9 @@ passed to OPEN call.
 
 ### [Function] write-hex-to-string
 
-    WRITE-HEX-TO-STRING offset-and-data &optional (chunk-size *default-chunk-size*) vector-size (if-exists :error)) => NIL
+    WRITE-HEX-TO-STRING offset-and-data &key (chunk-size *default-chunk-size*) vector-size => string
 
-Write Intel HEX format to string.
-Parameters are analogous to WRITE-HEX.
+Write Intel HEX format to string. Parameters are analogous to WRITE-HEX.
 
 ## Record Types
 

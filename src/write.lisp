@@ -80,12 +80,14 @@ vector of octets."
      finally
        (return res)))
 
-(defun write-hex (offset-and-data &optional (out *standard-output*)
-					    (chunk-size *default-chunk-size*)
-					    vector-size)
+(defun write-hex (offset-and-data &key (stream *standard-output*)
+                                       (chunk-size *default-chunk-size*)
+                                       vector-size)
 "OFFSET-AND-DATA is a list of alternating initial addresses and vectors
 to be put at the address; as special case, a single vector (assumed to
 start at address 0) can be also used.
+
+Example: (0 #(... code ...) #x2007 #(... config ...) #x2100 #(... rom ...))
 
 OPS may contain additional parameters; currently:
 - :chunk-size is supported to change size of individual lines,
@@ -97,17 +99,19 @@ OPS may contain additional parameters; currently:
 		  (code-to-octets vector-size data)
 		  data)))
 	(if (atom offset-and-data)
-	    (write-hex-single-vector (converted offset-and-data) out 0 chunk-size)
+	    (write-hex-single-vector (converted offset-and-data) stream 0 chunk-size)
 	    (loop
 	      for (offset data) on offset-and-data
 	      by #'cddr
 	      do (write-hex-single-vector (converted data)
-					  out  (* (or vector-size 1) offset) chunk-size))))
-  (write-hex-line out #() 0 1 0)
-  (force-output out))
+					  stream  (* (or vector-size 1) offset) chunk-size))))
+  (write-hex-line stream #() 0 1 0)
+  (force-output stream))
 
-(defun write-hex-to-file (offset-and-data file &key (chunk-size *default-chunk-size*)
-						 vector-size (if-exists :error))
+(defun write-hex-to-file (offset-and-data file
+                          &key (chunk-size *default-chunk-size*)
+                               vector-size
+                               (if-exists :error))
   "Print intel hex representation of one or multiple vectors to
 FILE.
 
@@ -115,12 +119,17 @@ Parameters are analogous to WRITE-HEX; in addition, IF-EXISTS is
 passed to OPEN call."
   (with-open-file (out file :direction :output
 		       :if-exists if-exists)
-    (write-hex offset-and-data out chunk-size vector-size)))
+    (write-hex offset-and-data :stream out
+                               :chunk-size chunk-size
+                               :vector-size vector-size)))
 
-(defun write-hex-to-string (offset-and-data &key (chunk-size *default-chunk-size*)
-						 vector-size)
+(defun write-hex-to-string (offset-and-data
+                            &key (chunk-size *default-chunk-size*)
+                                 vector-size)
   "Print intel hex representation of one or multiple vectors to a string.
 
 Parameters are analogous to WRITE-HEX."
   (with-output-to-string (out)
-    (write-hex offset-and-data out chunk-size vector-size)))
+    (write-hex offset-and-data :stream out
+                               :chunk-size chunk-size
+                               :vector-size vector-size)))
