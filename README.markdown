@@ -92,7 +92,7 @@ Parameters are analogous to WRITE-HEX.
 
 ## Record Types
 
-There are fix record types defined in Intel HEX format and their implementation status in the library is as following.
+There are six record types defined in Intel HEX format and their implementation status in the library is as following.
 
 Hex code | Record type | Status
 ---------|-------------|-------
