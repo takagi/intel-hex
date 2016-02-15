@@ -95,4 +95,36 @@
   (is (aref bytes #x00) #x00 "The first byte of the array is 0x00."))
 
 
+;;;
+;;; test WRITE-HEX-LINE
+;;;
+
+(diag "WRITE-HEX-LINE")
+
+(is (remove #\NewLine
+     (with-output-to-string (out)
+       (intel-hex::write-hex-line out #(02 #x33 #x7a) 0 0 3 #x30)))
+    ":0300300002337A1E")
+
+
+;;;
+;;; test WRITE-HEX-TO-STRING
+;;;
+
+(diag "WRITE-HEX-TO-STRING")
+
+(is (read-hex-from-string 6 (write-hex-to-string #1=#(10 11 23 45 32 94)))
+    #1#
+    :test #'equalp
+    "Ok. - simple")
+
+(is (subseq
+     (read-hex-from-string #x106
+      (write-hex-to-string '(#x100 #1=#(10 11 23 45 32 94))))
+     #x100)
+    #1#
+    :test #'equalp
+    "Ok. - with offset")
+
+
 (finalize)

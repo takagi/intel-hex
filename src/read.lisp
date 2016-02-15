@@ -3,12 +3,6 @@
   Copyright (c) 2015 Masayuki Takagi (kamonama@gmail.com)
 |#
 
-(in-package :cl-user)
-(defpackage intel-hex
-  (:use :cl)
-  (:export #:read-hex
-           #:read-hex-from-file
-           #:read-hex-from-string))
 (in-package :intel-hex)
 
 (defvar *check-sum* 0)
