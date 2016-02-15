@@ -106,6 +106,25 @@
        (intel-hex::write-hex-line out #(02 #x33 #x7a) 0 0 3 #x30)))
     ":0300300002337A1E")
 
+;;;
+;;; test WRITE-HEX-LINE errors
+;;;
+
+(is-error (intel-hex::write-hex-line 'unused 'unused #x10000 1 0)
+	  'simple-error
+	  "Starting address too long")
+
+(is-error (intel-hex::write-hex-line 'unused 'unused 0 -1 0)
+	  'simple-error
+	  "Non-existent type code")
+
+(is-error (intel-hex::write-hex-line 'unused 'unused 0 3 0)
+	  'simple-error
+	  "Unsupported type code")
+
+(with-output-to-string (out)
+  (is-error (intel-hex::write-hex-line out #(02 #x33 #x7af) 0 0 3 #x30)
+	    'simple-error "Too long octet"))
 
 ;;;
 ;;; test WRITE-HEX-TO-STRING
@@ -126,5 +145,10 @@
     :test #'equalp
     "Ok. - with offset")
 
+(is (read-hex-from-string 4 (write-hex-to-string #(#xabcd #xbeef)
+						 :vector-size 2))
+    #(#xcd #xab #xef #xbe)
+    :test #'equalp
+    "Ok. - doubled")
 
 (finalize)
