@@ -13,9 +13,8 @@
 (plan nil)
 
 
-;;;
-;;; test READ-START-CODE function
-;;;
+;;
+;; test READ-START-CODE function
 
 (diag "READ-START-CODE")
 
@@ -24,9 +23,8 @@
             "Unexpected character."))
 
 
-;;;
-;;; test READ-NEWLINE function
-;;;
+;;
+;; test READ-NEWLINE function
 
 (diag "READ-NEWLINE")
 
@@ -34,9 +32,8 @@
   (is-error (intel-hex::read-newline stream) 'simple-error
             "Unexpected character."))
 
-;;;
-;;; test VERIFY-CHECK-SUM function
-;;;
+;;
+;; test VERIFY-CHECK-SUM function
 
 (diag "VERIFY-CHECK-SUM")
 
@@ -52,9 +49,8 @@
               "Unmatched check sum.")))
 
 
-;;;
-;;; test READ-HEX function
-;;;
+;;
+;; test READ-HEX function
 
 (diag "READ-HEX")
 
@@ -71,9 +67,8 @@
             "Record type '05' not implemented."))
 
 
-;;;
-;;; test READ-HEX-FROM-FILE function
-;;;
+;;
+;; test READ-HEX-FROM-FILE function
 
 (diag "READ-HEX-FROM-FILE")
 
@@ -85,9 +80,8 @@
   (is (aref bytes #x13F) #x21 "The last byte of the array is 0x21."))
 
 
-;;;
-;;; test READ-HEX-FROM-STRING function
-;;;
+;;
+;; test READ-HEX-FROM-STRING function
 
 (diag "READ-HEX-FROM-STRING")
 
@@ -95,9 +89,8 @@
   (is (aref bytes #x00) #x00 "The first byte of the array is 0x00."))
 
 
-;;;
-;;; test WRITE-HEX-LINE
-;;;
+;;
+;; test WRITE-HEX-LINE
 
 (diag "WRITE-HEX-LINE")
 
@@ -107,9 +100,8 @@
     ":0300300002337A1E")
 
 
-;;;
-;;; test WRITE-HEX-LINE errors
-;;;
+;;
+;; test WRITE-HEX-LINE errors
 
 (is-error (intel-hex::write-hex-line 'unused 'unused #x10000 1 0)
 	  'simple-error
@@ -128,9 +120,8 @@
 	    'simple-error "Too long octet"))
 
 
-;;;
-;;; test WRITE-HEX-TO-FILE
-;;;
+;;
+;; test WRITE-HEX-TO-FILE
 
 (diag "WRITE-HEX-TO-FILE")
 
@@ -159,9 +150,8 @@
       "Ok. - doubled"))
 
 
-;;;
-;;; test WRITE-HEX-TO-STRING
-;;;
+;;
+;; test WRITE-HEX-TO-STRING
 
 (diag "WRITE-HEX-TO-STRING")
 
