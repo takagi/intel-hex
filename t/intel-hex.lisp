@@ -106,6 +106,7 @@
        (intel-hex::write-hex-line out #(02 #x33 #x7a) 0 0 3 #x30)))
     ":0300300002337A1E")
 
+
 ;;;
 ;;; test WRITE-HEX-LINE errors
 ;;;
@@ -125,6 +126,38 @@
 (with-output-to-string (out)
   (is-error (intel-hex::write-hex-line out #(02 #x33 #x7af) 0 0 3 #x30)
 	    'simple-error "Too long octet"))
+
+
+;;;
+;;; test WRITE-HEX-TO-FILE
+;;;
+
+(diag "WRITE-HEX-TO-FILE")
+
+(uiop:with-temporary-file (:pathname pathname)
+  (write-hex-to-file #1=#(10 11 23 45 32 94) pathname :if-exists :supersede)
+  (is (read-hex-from-file 6 pathname)
+      #1#
+      :test #'equalp
+      "Ok. - simple"))
+
+(uiop:with-temporary-file (:pathname pathname)
+  (write-hex-to-file '(#x100 #1=#(10 11 23 45 32 94)) pathname
+                     :if-exists :supersede)
+  (is (subseq (read-hex-from-file #x106 pathname) #x100)
+      #1#
+      :test #'equalp
+      "Ok. - with offset"))
+
+(uiop:with-temporary-file (:pathname pathname)
+  (write-hex-to-file #(#xabcd #xbeef) pathname
+                     :if-exists :supersede
+                     :vector-size 2)
+  (is (read-hex-from-file 4 pathname)
+      #(#xcd #xab #xef #xbe)
+      :test #'equalp
+      "Ok. - doubled"))
+
 
 ;;;
 ;;; test WRITE-HEX-TO-STRING
@@ -146,7 +179,7 @@
     "Ok. - with offset")
 
 (is (read-hex-from-string 4 (write-hex-to-string #(#xabcd #xbeef)
-						 :vector-size 2))
+                                                 :vector-size 2))
     #(#xcd #xab #xef #xbe)
     :test #'equalp
     "Ok. - doubled")
